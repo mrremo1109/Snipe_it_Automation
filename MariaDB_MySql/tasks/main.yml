@@ -8,7 +8,7 @@
      shell: sudo apt-key adv --fetch-keys 'https://mariadb.org/mariadb_release_signing_key.asc'
    - name: Adding Repo for Mariadb
      apt_repository:
-      repo: 'deb [arch=amd64,arm64,ppc64el] https://mirror.jit.ac.in/mariadb/repo/10.5/ubuntu bionic main'
+      repo: 'deb [arch=amd64,arm64,ppc64el] https://mirror.jit.ac.in/mariadb/repo/10.5/ubuntu bionic main' 
       state: present
 
    - name: Installing Mariadb
