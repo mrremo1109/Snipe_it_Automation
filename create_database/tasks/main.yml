@@ -1,0 +1,21 @@
+---
+# tasks file for create_database
+
+   - name: Create a new database
+     mysql_db:
+       login_user: root
+       login_password: mysql1
+       name: snipeit
+       state: present
+
+   - name: Create database user with name  and password  (all database privileges)
+     mysql_user:
+       login_user: root
+       login_password: mysql1
+       name: snipeituser
+       password: snipeituserpass
+       priv: '*.*:ALL'
+       state: present
+   
+   - name: Flush Privileges
+     shell: sudo systemctl restart mariadb

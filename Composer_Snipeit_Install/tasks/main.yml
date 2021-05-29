@@ -1,0 +1,26 @@
+---
+# tasks file for composer_snipeit
+
+    - name: Curl
+     shell: sudo apt install curl git
+
+   - name: To download composer
+     shell: curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+
+   - name: Snipe It Clone
+     git:
+         repo: https://github.com/snipe/snipe-it.git
+         dest: /var/www/snipeit
+         update: no
+
+   -  name: Copy file with owner and permissions
+      template:
+         src: files/.env
+         dest: /var/www/snipeit/.env
+
+   - name: Installing Composer
+     shell: sudo composer install --no-dev --prefer-source --no-interaction
+     args:
+       chdir: /var/www/snipeit/
+
+

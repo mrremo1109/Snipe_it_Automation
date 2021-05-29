@@ -1,0 +1,53 @@
+---
+# tasks file for mariadb_mysql
+
+   - name: Installing dependencies for Mariadb
+     apt: name=software-properties-common
+
+   - name: Adding key for Mariadb
+     shell: sudo apt-key adv --fetch-keys 'https://mariadb.org/mariadb_release_signing_key.asc'
+   - name: Adding Repo for Mariadb
+     apt_repository:
+      repo: 'deb [arch=amd64,arm64,ppc64el] https://mirror.jit.ac.in/mariadb/repo/10.5/ubuntu bionic main'
+      state: present
+
+   - name: Installing Mariadb
+     apt: name={{item}}
+     with_items:
+       - mariadb-server
+       - mariadb-client
+     notify:
+        - start mariadb
+
+   - name: start mariadb 
+     service: name=mariadb enabled=true state=started
+
+   - name: Run the equivalent of "apt-get update" as a separate step
+     apt:
+       update_cache: yes
+ 
+   - name: "Install ansible python3 mysql dependency"
+     apt:
+       name: python3-mysqldb
+       state: latest
+
+   - name: Set the root password
+     mysql_user: login_user=root login_password="" user=root password="mysql1"
+
+   - name: Secure the root user for IPV6 localhost (::1)
+     mysql_user: login_user=root login_password="mysql1" user=root password="mysql1" host="::1"
+
+   - name: Secure the root user for IPV4 localhost (127.0.0.1)
+     mysql_user: login_user=root login_password="mysql1" user=root password="mysql1" host="127.0.0.1"
+
+   - name: Secure the root user for localhost domain
+     mysql_user: login_user=root login_password="mysql1" user=root password="mysql1" host="localhost"
+
+   - name: Secure the root user for server_hostname domain
+     mysql_user: login_user=root login_password="mysql1" user=root password="mysql1" host="{{ ansible_fqdn }}"
+
+   - name: Deletes anonymous server user
+     mysql_user: login_user=root login_password="mysql1" user="" host_all=yes state=absent
+
+   - name: Removes the test database
+     mysql_db: login_user=root login_password="mysql1" db=test state=absent

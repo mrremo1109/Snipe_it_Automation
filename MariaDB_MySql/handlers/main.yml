@@ -1,0 +1,4 @@
+---
+ # handlers file for mariadb_mysql
+       - name: start mariadb
+         service: name=mariadb state=started enabled=true	
