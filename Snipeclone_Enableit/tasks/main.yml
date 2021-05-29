@@ -34,7 +34,7 @@
 
    - name: Dissite
      shell: sudo a2dissite 000-default.conf
-      args:
+     args:
        chdir: /etc/apache2/sites-available/
      notify:
         - Restart apache
