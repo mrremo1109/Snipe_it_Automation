@@ -1,0 +1,11 @@
+---
+- hosts: node1
+  become: true
+  gather_facts: true
+  roles:
+  - Apache
+  - MariaDB_MySql
+  - php.
+  - create_database
+  - Composer_Snipeit_Install
+  - Snipeclone_Enableit
