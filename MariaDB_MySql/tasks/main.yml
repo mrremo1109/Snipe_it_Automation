@@ -12,7 +12,7 @@
       state: present
 
    - name: Installing Mariadb
-     apt: name={{item}}
+     apt: name={{item}} update_cache=yes state=latest
      with_items:
        - mariadb-server
        - mariadb-client
