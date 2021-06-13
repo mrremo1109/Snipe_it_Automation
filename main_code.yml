@@ -1,6 +1,5 @@
 ---
-- hosts: node1
-  become: true
+- become: true
   gather_facts: true
   roles:
   - Apache
